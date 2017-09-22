@@ -11,15 +11,26 @@
 int FirstF(int vetor[N],int alloc){//funçao first fit  localiza o primeiro espaço com o tamanho da alocação e feito
     int i,pos,fre=0;
     for(i=1;i<=N;i++)//vasculha o vetor
-        if(vetor[i-1]==0){//i inicia com 1 para o caso do espaço ser 1, ficaria (0-1)=-1 
+        if(vetor[i-1]==0){
             fre++;
             if(alloc==fre){//o espaço encontrado é o certo
-                pos=i-alloc;
+                pos=i-alloc;//i iniciou com 1 para o caso do espaço ser 1, ficaria (0-1)=-1 
                 return pos;
             }
         }else
                 fre=0;
     return -1;
+}
+int BestF(int vetor[N],int alloc){
+    int i,pos,fre=0,aux;
+    for(i=1;i<=N;i++)//vasculha o vetor
+        if(vetor[i-1]==0)
+            fre++;
+        else{
+
+            aux=fre;
+            fre=0;
+        }
 }
 int main(){
     int vetor[N];
