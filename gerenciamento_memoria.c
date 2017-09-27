@@ -56,7 +56,7 @@ int WorstF(int vetor[N],int alloc){
                     aux=fre;
                 diferenca=fre-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar
                 diferencax=aux-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar da ultima resposta 
-                if(diferenca>diferencax){//se a diferença atual for menor significa que é melhor 
+                if(diferenca>=diferencax){//se a diferença atual for menor significa que é melhor 
                     aux=fre;
                     pos=(i-1)-fre;
                 }
