@@ -7,58 +7,72 @@
 #include<stdio.h>
 #include<time.h>
 #include<stdlib.h>
-#define N 50
+#define N 1000
 int FirstF(int vetor[N],int alloc){//funçao first fit  localiza o primeiro espaço com o tamanho da alocação e feito
     int i,pos,fre=0;
-    for(i=1;i<=N;i++)//vasculha o vetor
-        if(vetor[i-1]==0){
+    for(i=0;i<N;i++)//vasculha o vetor
+        if(vetor[i]==0){
             fre++;
             if(alloc==fre){//o espaço encontrado é o certo
-                pos=i-alloc;//i iniciou com 1 para o caso do espaço ser 1, ficaria (0-1)=-1 
+                pos=(i-fre)+1;
                 return pos;
             }
         }else
-                fre=0;
+            fre=0;
     return -1;
 }
 int BestF(int vetor[N],int alloc){
-    int i,pos=0,fre=0,aux=0,diferenca=0,diferencax=0;
-    for(i=1;i<=N;i++){//vasculha o vetor
-        if(vetor[i-1]==0)
+    int i,unico,pos=0,fre=0,aux=0,diferenca;
+    for(i=0;i<=N;++i){//vasculha o vetor ate N
+        if(vetor[i]==0 && i!=N)//Conta N como 1 para fazer a mesma operacao com os ultimos valores
             fre++;
         else{
-            if(fre>=alloc){//diminui a quantidade de operações
-                if(aux==0)//inicializa o aux na primeira vez em que é executado
-                    aux=fre;
-                diferenca=fre-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar
-                diferencax=aux-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar da ultima resposta 
-                if(diferenca<=diferencax){//se a diferença atual for menor significa que é melhor 
-                    aux=fre;
-                    pos=(i-1)-fre;
+            if(fre!=0){//diminui operacoes
+                if(fre==alloc && unico!=1){//var "unico" utilizado para pegar o primeiro espaco fre==alloc
+                    pos=i-fre;
+                    unico=1;
+                }else{
+                    if(fre>alloc){
+                        diferenca=fre-alloc;
+                        if(aux==0){//pega a primeira vez e deixa como valor para a comparação
+                            aux=diferenca;
+                            pos=(i-fre);
+                        }else{
+                            if(diferenca<aux){
+                                aux=diferenca;
+                                pos=(i-fre);
+                            }
+                        }
+                    }
                 }
+                fre=0;
             }
-            fre=0;
         }
+            
     }
+
     if(pos)
         return pos;
     else
         return -1;
 }
+
 int WorstF(int vetor[N],int alloc){
     int i,pos=0,fre=0,aux=0,diferenca=0,diferencax=0;
-    for(i=1;i<=N;i++){//vasculha o vetor
-        if(vetor[i-1]==0)
+    for(i=0;i<=N;i++){//vasculha o vetor
+        if(vetor[i]==0 && i!=N)
             fre++;
         else{
             if(fre>=alloc){//diminui a quantidade de operações
-                if(aux==0)//inicializa o aux na primeira vez em que é executado
-                    aux=fre;
                 diferenca=fre-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar
                 diferencax=aux-alloc;//diferença entre a quantidade de zeros e o numero pedido para alocar da ultima resposta 
-                if(diferenca>=diferencax){//se a diferença atual for menor significa que é melhor 
+                if(aux==0){//inicializa o aux na primeira vez em que é executado
                     aux=fre;
-                    pos=(i-1)-fre;
+                    pos=(i-fre);
+                }
+                if(diferenca>diferencax){//se a diferença atual for MAIOR significa que é PIOR 
+                    aux=fre;
+                    pos=(i-fre);
                 }
             }
             fre=0;
@@ -79,16 +93,16 @@ int main(){
     do{
         printf("(");
         for(i=0;i<N;i++)
-            printf("(%i)[%i] \n",vetor[i],i);
+            printf("(%i) ",vetor[i]);
         printf(")");    
         printf("\nInforme a quantidade de memoria a ser alocada: ");
         scanf("%i",&aloc);
         if(aloc>0){
             a=FirstF(vetor,aloc);
             if(a==-1){
-                printf("Espaço não encontrado.\n");
+                printf("Primeiro espaço não encontrado.\n");
             }else{
-                printf("Espaço encontrado com inicio na posição %i!!\n",a);
+                printf("Primeiro espaço encontrado com inicio na posição %i!!\n",a);
 
             }
             a=BestF(vetor,aloc);
