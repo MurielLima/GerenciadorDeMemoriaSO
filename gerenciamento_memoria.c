@@ -1,13 +1,13 @@
-//Disciplina de Algoritmos e Programação
-//Criado por:  Muriel José Lima
 //
-//O programa tem a função de simulador um gerenciador de memória
-//
+//Trabalho: O programa tem a função de simulador um gerenciador de memória
+//Disciplina:Algoritmos e Programação
+//Professor: Dr. Alceu Britto
+//Author: Muriel José Lima
 //
 #include<stdio.h>
 #include<time.h>
 #include<stdlib.h>
-#define N 1000
+#define N 30
 int FirstF(int vetor[N],int alloc){//funçao first fit  localiza o primeiro espaço com o tamanho da alocação e feito
     int i,pos,fre=0;
     for(i=0;i<N;i++)//vasculha o vetor
@@ -22,7 +22,7 @@ int FirstF(int vetor[N],int alloc){//funçao first fit  localiza o primeiro espa
     return -1;
 }
 int BestF(int vetor[N],int alloc){
-    int i,unico,pos=0,fre=0,aux=0,diferenca;
+    int i,unico=0,pos=0,fre=0,aux=0,diferenca;
     for(i=0;i<=N;++i){//vasculha o vetor ate N
         if(vetor[i]==0 && i!=N)//Conta N como 1 para fazer a mesma operacao com os ultimos valores
             fre++;
@@ -37,6 +37,7 @@ int BestF(int vetor[N],int alloc){
                         if(aux==0){//pega a primeira vez e deixa como valor para a comparação
                             aux=diferenca;
                             pos=(i-fre);
+                            unico=1;
                         }else{
                             if(diferenca<aux){
                                 aux=diferenca;
@@ -48,9 +49,7 @@ int BestF(int vetor[N],int alloc){
                 fre=0;
             }
         }
-            
     }
-
     if(pos)
         return pos;
     else
@@ -91,31 +90,32 @@ int main(){
     for(i=0;i<N;i++)
         vetor[i]=rand() % 2; 
     do{
-        printf("(");
         for(i=0;i<N;i++)
-            printf("(%i) ",vetor[i]);
-        printf(")");    
+            printf("(%2i) ",i);
+        printf("\n");
+        for(i=0;i<N;i++)
+            printf("(%2i) ",vetor[i]);
         printf("\nInforme a quantidade de memoria a ser alocada: ");
         scanf("%i",&aloc);
         if(aloc>0){
             a=FirstF(vetor,aloc);
             if(a==-1){
-                printf("Primeiro espaço não encontrado.\n");
+                printf("(FIRST FIT)Primeiro espaço não encontrado.\n");
             }else{
-                printf("Primeiro espaço encontrado com inicio na posição %i!!\n",a);
+                printf("(FIRST FIT)Primeiro espaço encontrado com inicio na posição %i!!\n",a);
 
             }
             a=BestF(vetor,aloc);
             if(a==-1){
-                printf("Melhor espaço não encontrado.\n");
+                printf("(BEST FIT)Melhor espaço não encontrado.\n");
             }else{
-                printf("Melhor espaço encontrado com inicio na posição %i!!\n",a);
+                printf("(BEST FIT)Melhor espaço encontrado com inicio na posição %i!!\n",a);
             }
             a=WorstF(vetor,aloc);
             if(a==-1){
-                printf("Pior espaço não encontrado.\n");
+                printf("(WORST FIT)Pior espaço não encontrado.\n");
             }else{
-                printf("Pior espaço encontrado com inicio na posição %i!!\n",a);
+                printf("(WORST FIT)Pior espaço encontrado com inicio na posição %i!!\n",a);
             }
 
         }else
