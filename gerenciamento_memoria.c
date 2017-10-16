@@ -2,7 +2,7 @@
 //Trabalho: O programa tem a função de simulador um gerenciador de memória
 //Disciplina:Algoritmos e Programação
 //Professor: Dr. Alceu Britto
-//Author: Muriel José Lima
+//Aluno: Muriel José Lima
 //
 #include<stdio.h>
 #include<time.h>
@@ -22,22 +22,20 @@ int FirstF(int vetor[N],int alloc){//funçao first fit  localiza o primeiro espa
     return -1;
 }
 int BestF(int vetor[N],int alloc){
-    int i,unico=0,pos=0,fre=0,aux=0,diferenca;
+    int i,pos=-1,fre=0,aux=0,diferenca;
     for(i=0;i<=N;++i){//vasculha o vetor ate N
         if(vetor[i]==0 && i!=N)//Conta N como 1 para fazer a mesma operacao com os ultimos valores
             fre++;
         else{
             if(fre!=0){//diminui operacoes
-                if(fre==alloc && unico!=1){//var "unico" utilizado para pegar o primeiro espaco fre==alloc
+                if(fre==alloc && pos==-1){//var "unico" utilizado para pegar o primeiro espaco fre==alloc
                     pos=i-fre;
-                    unico=1;
                 }else{
                     if(fre>alloc){
                         diferenca=fre-alloc;
                         if(aux==0){//pega a primeira vez e deixa como valor para a comparação
                             aux=diferenca;
                             pos=(i-fre);
-                            unico=1;
                         }else{
                             if(diferenca<aux){
                                 aux=diferenca;
@@ -50,14 +48,14 @@ int BestF(int vetor[N],int alloc){
             }
         }
     }
-    if(pos)
+    if(pos!=-1)
         return pos;
     else
         return -1;
 }
 
 int WorstF(int vetor[N],int alloc){
-    int i,pos=0,fre=0,aux=0,diferenca=0,diferencax=0;
+    int i,pos=-1,fre=0,aux=0,diferenca=0,diferencax=0;
     for(i=0;i<=N;i++){//vasculha o vetor
         if(vetor[i]==0 && i!=N)
             fre++;
@@ -77,7 +75,7 @@ int WorstF(int vetor[N],int alloc){
             fre=0;
         }
     }
-    if(pos)
+    if(pos!=-1)
         return pos;
     else
         return -1;
@@ -123,5 +121,6 @@ int main(){
 
         printf("Deseja continuar? (1/0): ");
         scanf("%i",&i);
+        system("clear");
     }while(i!=0);
 }
